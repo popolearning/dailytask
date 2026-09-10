@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>今日 focus - 晨間平靜抽籤</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f5f0;
+            --card-bg: #ffffff;
+            --text-primary: #4a403a;
+            --text-secondary: #8c827a;
+            --accent-color: #8b9d83;
+            --accent-hover: #788a70;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            --radius: 24px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        .result-box {
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #faf9f6;
+            border-radius: 16px;
+            border: 1px solid #f0ede6;
+        }
+
+        .category-title {
+            font-size: 2.2rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .action-suggestion {
+            font-size: 1.05rem;
+            color: var(--accent-color);
+            font-weight: 400;
+            min-height: 1.5em;
+            letter-spacing: 1px;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 16px 36px;
+            font-size: 1rem;
+            font-weight: 400;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(139, 157, 131, 0.2);
+            transition: all 0.2s ease;
+            letter-spacing: 1.5px;
+            outline: none;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 157, 131, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* 抽取時的簡單動畫效果 */
+        .rolling {
+            opacity: 0.6;
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>TODAY'S FOCUS</h1>
+            <p>將選擇交出去，平靜地開始新的一天</p>
+        </div>
+
+        <div class="result-box" id="resultBox">
+            <div class="category-title" id="categoryText">準備好了嗎？</div>
+            <div class="action-suggestion" id="actionText">點擊下方按鈕，抽一個今天的領域</div>
+        </div>
+
+        <button class="btn" id="drawBtn" onclick="draw()">抽取今天的領域</button>
+    </div>
+
+    <script>
+        // 資料清單設定
+        const items = [
+            {
+                category: "投資",
+                actions: ["貓哥", "朱家泓", "當沖", "在 Notion 整理筆記供 AI 分析"]
+            },
+            {
+                category: "命理",
+                actions: ["紫微斗數", "奧修", "人類圖"]
+            },
+            {
+                category: "吸引力法則",
+                actions: []
+            },
+            {
+                category: "休息",
+                actions: ["打電動", "去集章", "出遠門", "看影片"]
+            },
+            {
+                category: "打掃",
+                actions: []
+            }
+        ];
+
+        let isSpinning = false;
+
+        function draw() {
+            if (isSpinning) return;
+            
+            isSpinning = true;
+            const categoryText = document.getElementById("categoryText");
+            const actionText = document.getElementById("actionText");
+            const resultBox = document.getElementById("resultBox");
+            const btn = document.getElementById("drawBtn");
+
+            btn.style.pointerEvents = "none";
+            resultBox.classList.add("rolling");
+
+            // 滾動抽籤效果
+            let counter = 0;
+            const maxCycles = 15;
+            const interval = setInterval(() => {
+                const tempCategory = items[Math.floor(Math.random() * items.length)];
+                categoryText.innerText = tempCategory.category;
+                actionText.innerText = "...";
+                
+                counter++;
+                if (counter >= maxCycles) {
+                    clearInterval(interval);
+                    
+                    // 最終決定領域與建議
+                    const selected = items[Math.floor(Math.random() * items.length)];
+                    categoryText.innerText = selected.category;
+
+                    if (selected.actions && selected.actions.length > 0) {
+                        const randomAction = selected.actions[Math.floor(Math.random() * selected.actions.length)];
+                        actionText.innerText = `💡 建議：${randomAction}`;
+                    } else {
+                        actionText.innerText = "✨ 今天就順其自然地進行吧";
+                    }
+
+                    resultBox.classList.remove("rolling");
+                    btn.style.pointerEvents = "auto";
+                    isSpinning = false;
+                }
+            }, 60);
+        }
+    </script>
+</body>
+</html>
