@@ -1,215 +1,1140 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>今日 focus - 晨間平靜抽籤</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #f7f5f0;
-            --card-bg: #ffffff;
-            --text-primary: #4a403a;
-            --text-secondary: #8c827a;
-            --accent-color: #8b9d83;
-            --accent-hover: #788a70;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-            --radius: 24px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Noto Sans TC', sans-serif;
-        }
+<title>今日 Focus｜晨間平靜抽籤</title>
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 
-        .container {
-            background: var(--card-bg);
-            padding: 40px 30px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            width: 100%;
-            max-width: 420px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
+<style>
+:root {
+--bg: #f7f5ef;
+--paper: #fbfaf6;
+--paper-dark: #f1eee6;
 
-        .header {
-            margin-bottom: 30px;
-        }
+--text: #263b34;
+--text-soft: #7d857f;
+--text-light: #a2aaa5;
 
-        .header h1 {
-            font-size: 1.25rem;
-            font-weight: 400;
-            color: var(--text-secondary);
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-        }
+--green: #58796c;
+--green-dark: #45675b;
+--green-light: #dfe7e1;
 
-        .header p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            opacity: 0.8;
-        }
+--mountain-1: #dce6e5;
+--mountain-2: #ccdcdc;
+--mountain-3: #b9cfcc;
 
-        .result-box {
-            min-height: 180px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #faf9f6;
-            border-radius: 16px;
-            border: 1px solid #f0ede6;
-        }
+--line: rgba(70, 89, 81, 0.16);
 
-        .category-title {
-            font-size: 2.2rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-            transition: transform 0.2s ease;
-        }
+--ease: cubic-bezier(.22, .61, .36, 1);
+}
 
-        .action-suggestion {
-            font-size: 1.05rem;
-            color: var(--accent-color);
-            font-weight: 400;
-            min-height: 1.5em;
-            letter-spacing: 1px;
-        }
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
 
-        .btn {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 16px 36px;
-            font-size: 1rem;
-            font-weight: 400;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(139, 157, 131, 0.2);
-            transition: all 0.2s ease;
-            letter-spacing: 1.5px;
-            outline: none;
-        }
+html {
+min-height: 100%;
+}
 
-        .btn:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(139, 157, 131, 0.3);
-        }
+body {
+min-height: 100vh;
+background: var(--bg);
+color: var(--text);
+font-family: "Noto Sans TC", sans-serif;
+font-weight: 300;
+overflow-x: hidden;
+}
 
-        .btn:active {
-            transform: translateY(0);
-        }
+/* =========================
+HEADER
+========================= */
 
-        /* 抽取時的簡單動畫效果 */
-        .rolling {
-            opacity: 0.6;
-            transform: scale(0.98);
-        }
-    </style>
+.topbar {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 82px;
+
+display: flex;
+align-items: center;
+justify-content: space-between;
+
+padding: 0 5vw;
+
+z-index: 10;
+}
+
+.brand {
+display: flex;
+align-items: center;
+gap: 13px;
+
+color: var(--text);
+text-decoration: none;
+}
+
+.brand-icon {
+width: 27px;
+height: 27px;
+position: relative;
+}
+
+.brand-icon::before,
+.brand-icon::after {
+content: "";
+position: absolute;
+background: var(--green);
+border-radius: 100% 0 100% 0;
+}
+
+.brand-icon::before {
+width: 12px;
+height: 19px;
+left: 4px;
+top: 1px;
+transform: rotate(-28deg);
+}
+
+.brand-icon::after {
+width: 12px;
+height: 19px;
+right: 4px;
+top: 7px;
+transform: rotate(28deg);
+}
+
+.brand-name {
+font-family: "Playfair Display", serif;
+font-size: 21px;
+letter-spacing: 2px;
+}
+
+.brand-divider {
+width: 1px;
+height: 18px;
+background: var(--line);
+margin-left: 5px;
+}
+
+.brand-tagline {
+font-size: 13px;
+color: var(--text-soft);
+letter-spacing: 1px;
+}
+
+/* =========================
+MAIN
+========================= */
+
+.hero {
+position: relative;
+min-height: 100vh;
+
+display: flex;
+justify-content: center;
+align-items: center;
+
+overflow: hidden;
+padding: 100px 25px 80px;
+}
+
+.hero-content {
+position: relative;
+z-index: 5;
+
+width: 100%;
+max-width: 850px;
+
+text-align: center;
+
+transform: translateY(-20px);
+}
+
+/* 小太陽 */
+
+.sun {
+width: 68px;
+height: 68px;
+
+margin: 0 auto 48px;
+
+border-radius: 50%;
+
+background:
+radial-gradient(
+circle at 35% 35%,
+rgba(255,255,255,.8),
+rgba(247,205,153,.55) 55%,
+rgba(239,190,134,.15)
+);
+
+filter: blur(.2px);
+}
+
+/* 標題 */
+
+.eyebrow {
+font-family: "Playfair Display", serif;
+font-size: clamp(37px, 5.5vw, 66px);
+font-weight: 400;
+
+letter-spacing: clamp(7px, 1.5vw, 15px);
+
+color: var(--text);
+
+margin-left: clamp(7px, 1.5vw, 15px);
+
+line-height: 1.2;
+}
+
+.subtitle {
+margin-top: 18px;
+
+font-size: 16px;
+letter-spacing: 2px;
+
+color: var(--text-soft);
+}
+
+.subtitle span {
+display: inline-block;
+}
+
+/* =========================
+DRAW BUTTON
+========================= */
+
+.draw-area {
+margin-top: 58px;
+
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.draw-button {
+position: relative;
+
+width: 166px;
+height: 166px;
+
+border-radius: 50%;
+border: none;
+
+background:
+radial-gradient(
+circle at 35% 25%,
+#718f83,
+var(--green) 60%,
+#4e7064
+);
+
+color: white;
+
+cursor: pointer;
+
+box-shadow:
+0 16px 35px rgba(66, 93, 83, .18),
+inset 0 1px 0 rgba(255,255,255,.18);
+
+transition:
+transform .35s var(--ease),
+box-shadow .35s var(--ease);
+
+font-family: "Noto Sans TC", sans-serif;
+}
+
+.draw-button:hover {
+transform: translateY(-5px);
+
+box-shadow:
+0 22px 45px rgba(66, 93, 83, .25),
+inset 0 1px 0 rgba(255,255,255,.2);
+}
+
+.draw-button:active {
+transform: scale(.97);
+}
+
+.draw-star {
+display: block;
+
+font-size: 23px;
+line-height: 1;
+
+margin-bottom: 12px;
+
+font-family: serif;
+}
+
+.draw-label {
+display: block;
+
+font-size: 16px;
+letter-spacing: 2px;
+
+margin-bottom: 8px;
+}
+
+.draw-arrow {
+display: block;
+
+font-size: 24px;
+line-height: 1px;
+
+font-weight: 200;
+}
+
+.hint {
+margin-top: 25px;
+
+color: var(--text-soft);
+
+font-size: 12px;
+letter-spacing: 2px;
+}
+
+/* =========================
+RESULT
+========================= */
+
+.result {
+display: none;
+
+width: min(100%, 600px);
+
+margin: 42px auto 0;
+
+animation: resultAppear .8s var(--ease) forwards;
+}
+
+.result.show {
+display: block;
+}
+
+.result-label {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 14px;
+
+color: var(--text-light);
+
+font-size: 12px;
+letter-spacing: 3px;
+
+margin-bottom: 16px;
+}
+
+.result-label::before,
+.result-label::after {
+content: "";
+width: 34px;
+height: 1px;
+background: var(--line);
+}
+
+.result-card {
+position: relative;
+
+padding: 42px 35px 38px;
+
+background: rgba(251,250,246,.88);
+
+border: 1px solid rgba(85,105,96,.12);
+
+border-radius: 5px;
+
+box-shadow:
+0 20px 50px rgba(60,80,70,.08);
+
+overflow: hidden;
+}
+
+.result-card::before {
+content: "";
+
+position: absolute;
+inset: 8px;
+
+border: 1px solid rgba(85,105,96,.07);
+
+pointer-events: none;
+}
+
+.category {
+position: relative;
+
+font-size: 36px;
+font-weight: 400;
+
+letter-spacing: 5px;
+
+margin-bottom: 18px;
+}
+
+.category::after {
+content: "";
+
+display: block;
+
+width: 30px;
+height: 1px;
+
+margin: 20px auto 0;
+
+background: var(--green);
+}
+
+.action {
+position: relative;
+
+color: var(--green);
+
+font-size: 17px;
+letter-spacing: 1px;
+
+line-height: 1.8;
+}
+
+/* =========================
+MOUNTAINS
+========================= */
+
+.landscape {
+position: absolute;
+
+left: 0;
+bottom: 0;
+
+width: 100%;
+height: 38vh;
+
+min-height: 230px;
+
+pointer-events: none;
+}
+
+.mountain {
+position: absolute;
+
+left: -5%;
+bottom: 0;
+
+width: 110%;
+height: 75%;
+
+background: var(--mountain-1);
+
+opacity: .7;
+
+clip-path: polygon(
+0 72%,
+8% 61%,
+16% 68%,
+25% 45%,
+34% 57%,
+45% 31%,
+53% 47%,
+63% 35%,
+72% 55%,
+82% 38%,
+91% 61%,
+100% 48%,
+100% 100%,
+0 100%
+);
+}
+
+.mountain.two {
+height: 58%;
+
+background: var(--mountain-2);
+
+opacity: .55;
+
+transform: translateY(25px);
+
+clip-path: polygon(
+0 75%,
+12% 52%,
+20% 66%,
+32% 39%,
+42% 61%,
+52% 48%,
+62% 65%,
+75% 34%,
+87% 59%,
+100% 45%,
+100% 100%,
+0 100%
+);
+}
+
+.mountain.three {
+height: 43%;
+
+background: var(--mountain-3);
+
+opacity: .3;
+
+transform: translateY(50px);
+
+clip-path: polygon(
+0 70%,
+14% 48%,
+25% 67%,
+37% 46%,
+49% 65%,
+60% 42%,
+71% 62%,
+83% 47%,
+100% 65%,
+100% 100%,
+0 100%
+);
+}
+
+/* 湖面 */
+
+.lake {
+position: absolute;
+
+bottom: 0;
+left: 0;
+
+width: 100%;
+height: 15%;
+
+background: linear-gradient(
+to bottom,
+rgba(231,238,237,.35),
+rgba(247,245,239,.8)
+);
+}
+
+/* 小船 */
+
+.boat {
+position: absolute;
+
+right: 18%;
+bottom: 7%;
+
+width: 46px;
+height: 16px;
+}
+
+.boat::before {
+content: "";
+
+position: absolute;
+
+left: 0;
+bottom: 0;
+
+width: 45px;
+height: 7px;
+
+background: rgba(73,99,91,.35);
+
+clip-path: polygon(
+0 0,
+100% 0,
+82% 100%,
+18% 100%
+);
+}
+
+.boat::after {
+content: "";
+
+position: absolute;
+
+left: 22px;
+bottom: 6px;
+
+width: 1px;
+height: 25px;
+
+background: rgba(73,99,91,.35);
+}
+
+/* =========================
+BOTTOM DECORATION
+========================= */
+
+.bottom-mark {
+position: absolute;
+
+left: 50%;
+bottom: 35px;
+
+transform: translateX(-50%);
+
+display: flex;
+align-items: center;
+gap: 16px;
+
+color: var(--green);
+
+z-index: 5;
+}
+
+.bottom-mark::before,
+.bottom-mark::after {
+content: "";
+
+width: 65px;
+height: 1px;
+
+background: rgba(88,121,108,.22);
+}
+
+.leaf {
+font-size: 18px;
+transform: rotate(-15deg);
+}
+
+/* =========================
+ANIMATION
+========================= */
+
+.spinning .draw-button {
+animation: gentlePulse .6s infinite alternate;
+}
+
+.spinning .draw-label {
+opacity: .75;
+}
+
+@keyframes gentlePulse {
+from {
+transform: scale(1);
+}
+
+to {
+transform: scale(.96);
+}
+}
+
+@keyframes resultAppear {
+from {
+opacity: 0;
+transform: translateY(15px);
+}
+
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.fade-change {
+animation: fadeChange .12s ease;
+}
+
+@keyframes fadeChange {
+0% {
+opacity: .35;
+transform: scale(.97);
+}
+
+100% {
+opacity: 1;
+transform: scale(1);
+}
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+.topbar {
+height: 70px;
+padding: 0 24px;
+}
+
+.brand-divider,
+.brand-tagline {
+display: none;
+}
+
+.brand-name {
+font-size: 19px;
+}
+
+.hero {
+padding:
+90px
+20px
+70px;
+}
+
+.hero-content {
+transform: translateY(-15px);
+}
+
+.sun {
+width: 53px;
+height: 53px;
+
+margin-bottom: 35px;
+}
+
+.eyebrow {
+font-size: 37px;
+letter-spacing: 7px;
+margin-left: 7px;
+}
+
+.subtitle {
+font-size: 13px;
+letter-spacing: 1px;
+
+padding: 0 15px;
+
+line-height: 1.8;
+}
+
+.draw-area {
+margin-top: 45px;
+}
+
+.draw-button {
+width: 145px;
+height: 145px;
+}
+
+.draw-label {
+font-size: 14px;
+}
+
+.draw-star {
+font-size: 20px;
+}
+
+.hint {
+margin-top: 20px;
+}
+
+.result {
+margin-top: 35px;
+}
+
+.result-card {
+padding: 35px 20px 30px;
+}
+
+.category {
+font-size: 30px;
+}
+
+.action {
+font-size: 15px;
+}
+
+.landscape {
+height: 29vh;
+min-height: 190px;
+}
+
+.boat {
+right: 12%;
+}
+
+.bottom-mark {
+bottom: 18px;
+}
+
+.bottom-mark::before,
+.bottom-mark::after {
+width: 40px;
+}
+}
+
+/* 更小手機 */
+
+@media (max-width: 380px) {
+
+.eyebrow {
+font-size: 32px;
+letter-spacing: 5px;
+margin-left: 5px;
+}
+
+.subtitle {
+font-size: 12px;
+}
+
+.draw-button {
+width: 135px;
+height: 135px;
+}
+
+.category {
+font-size: 27px;
+}
+}
+
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <div class="header">
-            <h1>TODAY'S FOCUS</h1>
-            <p>將選擇交出去，平靜地開始新的一天</p>
-        </div>
+<!-- =========================
+HEADER
+========================= -->
 
-        <div class="result-box" id="resultBox">
-            <div class="category-title" id="categoryText">準備好了嗎？</div>
-            <div class="action-suggestion" id="actionText">點擊下方按鈕，抽一個今天的領域</div>
-        </div>
+<header class="topbar">
 
-        <button class="btn" id="drawBtn" onclick="draw()">抽取今天的領域</button>
-    </div>
+<div class="brand">
 
-    <script>
-        // 資料清單設定
-        const items = [
-            {
-                category: "投資",
-                actions: ["貓哥", "朱家泓", "當沖", "在 Notion 整理筆記供 AI 分析"]
-            },
-            {
-                category: "命理",
-                actions: ["紫微斗數", "奧修", "人類圖"]
-            },
-            {
-                category: "吸引力法則",
-                actions: []
-            },
-            {
-                category: "休息",
-                actions: ["打電動", "去集章", "出遠門", "看影片"]
-            },
-            {
-                category: "打掃",
-                actions: []
-            }
-        ];
+<div class="brand-icon"></div>
 
-        let isSpinning = false;
+<div class="brand-name">
+Daily Task
+</div>
 
-        function draw() {
-            if (isSpinning) return;
-            
-            isSpinning = true;
-            const categoryText = document.getElementById("categoryText");
-            const actionText = document.getElementById("actionText");
-            const resultBox = document.getElementById("resultBox");
-            const btn = document.getElementById("drawBtn");
+<div class="brand-divider"></div>
 
-            btn.style.pointerEvents = "none";
-            resultBox.classList.add("rolling");
+<div class="brand-tagline">
+把選擇交出去，讓美好自然發生
+</div>
 
-            // 滾動抽籤效果
-            let counter = 0;
-            const maxCycles = 15;
-            const interval = setInterval(() => {
-                const tempCategory = items[Math.floor(Math.random() * items.length)];
-                categoryText.innerText = tempCategory.category;
-                actionText.innerText = "...";
-                
-                counter++;
-                if (counter >= maxCycles) {
-                    clearInterval(interval);
-                    
-                    // 最終決定領域與建議
-                    const selected = items[Math.floor(Math.random() * items.length)];
-                    categoryText.innerText = selected.category;
+</div>
 
-                    if (selected.actions && selected.actions.length > 0) {
-                        const randomAction = selected.actions[Math.floor(Math.random() * selected.actions.length)];
-                        actionText.innerText = `💡 建議：${randomAction}`;
-                    } else {
-                        actionText.innerText = "✨ 今天就順其自然地進行吧";
-                    }
+</header>
 
-                    resultBox.classList.remove("rolling");
-                    btn.style.pointerEvents = "auto";
-                    isSpinning = false;
-                }
-            }, 60);
-        }
-    </script>
+
+<!-- =========================
+MAIN
+========================= -->
+
+<main class="hero">
+
+<section class="hero-content" id="heroContent">
+
+<div class="sun"></div>
+
+<h1 class="eyebrow">
+TODAY'S FOCUS
+</h1>
+
+<p class="subtitle">
+<span>將選擇交出去，</span>
+<span>平靜地開始新的一天</span>
+</p>
+
+
+<!-- 抽籤區 -->
+
+<div class="draw-area" id="drawArea">
+
+<button
+class="draw-button"
+id="drawBtn"
+onclick="draw()"
+>
+
+<span class="draw-star">✦</span>
+
+<span class="draw-label">
+抽取今天的領域
+</span>
+
+<span class="draw-arrow">
+→
+</span>
+
+</button>
+
+<div class="hint" id="hint">
+準備好了嗎？
+</div>
+
+</div>
+
+
+<!-- 抽籤結果 -->
+
+<section class="result" id="result">
+
+<div class="result-label">
+今日的領域
+</div>
+
+<div
+class="result-card"
+id="resultCard"
+>
+
+<div
+class="category"
+id="categoryText"
+>
+投資
+</div>
+
+<div
+class="action"
+id="actionText"
+>
+💡 建議：今天就從一件小事開始
+</div>
+
+</div>
+
+</section>
+
+</section>
+
+
+<!-- =========================
+LANDSCAPE
+========================= -->
+
+<div class="landscape">
+
+<div class="mountain"></div>
+
+<div class="mountain two"></div>
+
+<div class="mountain three"></div>
+
+<div class="lake"></div>
+
+<div class="boat"></div>
+
+</div>
+
+
+<!-- =========================
+BOTTOM MARK
+========================= -->
+
+<div class="bottom-mark">
+<span class="leaf">♧</span>
+</div>
+
+</main>
+
+
+<script>
+
+/* =========================
+固定清單
+========================= */
+
+const items = [
+
+{
+category: "投資",
+actions: [
+"貓哥",
+"朱家泓",
+"當沖",
+"在 Notion 整理筆記供 AI 分析"
+]
+},
+
+{
+category: "命理",
+actions: [
+"紫微斗數",
+"奧修",
+"人類圖"
+]
+},
+
+{
+category: "吸引力法則",
+actions: []
+},
+
+{
+category: "休息",
+actions: [
+"打電動",
+"去集章",
+"出遠門",
+"看影片"
+]
+},
+
+{
+category: "打掃",
+actions: []
+}
+
+];
+
+
+let isSpinning = false;
+
+
+/* =========================
+抽籤
+========================= */
+
+function draw() {
+
+if (isSpinning) return;
+
+isSpinning = true;
+
+const categoryText =
+document.getElementById("categoryText");
+
+const actionText =
+document.getElementById("actionText");
+
+const drawBtn =
+document.getElementById("drawBtn");
+
+const drawArea =
+document.getElementById("drawArea");
+
+const result =
+document.getElementById("result");
+
+const resultCard =
+document.getElementById("resultCard");
+
+const hint =
+document.getElementById("hint");
+
+
+/* 顯示結果區 */
+
+result.classList.add("show");
+
+drawArea.classList.add("spinning");
+
+drawBtn.disabled = true;
+
+drawBtn.style.cursor = "default";
+
+hint.innerText = "正在替你選擇今天的方向";
+
+
+/* 滾動效果 */
+
+let counter = 0;
+
+const maxCycles = 18;
+
+const interval = setInterval(() => {
+
+const randomItem =
+items[
+Math.floor(
+Math.random() * items.length
+)
+];
+
+categoryText.classList.remove("fade-change");
+actionText.classList.remove("fade-change");
+
+void categoryText.offsetWidth;
+
+categoryText.innerText =
+randomItem.category;
+
+actionText.innerText =
+"⋯";
+
+categoryText.classList.add("fade-change");
+
+counter++;
+
+
+if (counter >= maxCycles) {
+
+clearInterval(interval);
+
+finishDraw();
+
+}
+
+}, 75);
+
+
+/* =========================
+最終結果
+========================= */
+
+function finishDraw() {
+
+const selected =
+items[
+Math.floor(
+Math.random() * items.length
+)
+];
+
+
+categoryText.innerText =
+selected.category;
+
+
+if (
+selected.actions &&
+selected.actions.length > 0
+) {
+
+const randomAction =
+selected.actions[
+Math.floor(
+Math.random()
+* selected.actions.length
+)
+];
+
+actionText.innerText =
+`💡 建議：${randomAction}`;
+
+} else {
+
+actionText.innerText =
+"✨ 今天就順其自然地進行吧";
+
+}
+
+
+categoryText.classList.add("fade-change");
+
+
+setTimeout(() => {
+
+drawArea.classList.remove("spinning");
+
+drawBtn.disabled = false;
+
+drawBtn.style.cursor = "pointer";
+
+hint.innerText =
+"今天，就從這裡開始";
+
+isSpinning = false;
+
+}, 350);
+
+}
+
+}
+
+</script>
+
 </body>
 </html>
